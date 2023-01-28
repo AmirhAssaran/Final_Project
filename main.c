@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #define LSIZ 128 
 #define RSIZ 10 
-#define MAX 5
+#define MAX 100
  
 int top = -1, stack[MAX];
 int statusRegistersArray[8];
@@ -32,8 +31,7 @@ void zeroChecker (int *array, int num) {
     }
     else {
         *(array + 1) = 0;
-    }
-    
+    }  
 }
 
 void signChecker (int *array, int num) {
@@ -42,11 +40,10 @@ void signChecker (int *array, int num) {
     }
     else {
         *(array + 2) = 0;
-    }
-    
+    }  
 }
 
-void overflowChecker(int *array, int num1, int num2) {
+void overflowChecker (int *array, int num1, int num2) {
     int res = num1 + num2;
     if (num1 < 0 && num2 < 0 && res > 0) {
         *(array + 5) = 1;
@@ -59,9 +56,7 @@ void overflowChecker(int *array, int num1, int num2) {
     }  
 }
 
-
-
-int sFinder(char str[100]) {
+int sFinder(char str[1000]) {
     int n = strlen(str);
     int con = 0;
     for (int i = 0; i < n; i++) {
@@ -75,10 +70,12 @@ int sFinder(char str[100]) {
     }
     return 0;
 }
+
 void MOVBIT(int *array, int res, int num) {
    int intVal = *(array + num);
    *(array + res) = intVal; 
 }
+
 void MOVIMM(int *array, int res, int num) {
    *(array + res) = num; 
 }
@@ -164,7 +161,7 @@ void SWP (int *array, int num1, int num2) {
 }
 
 void DUMP_REGS (int *array1, int *array2) {
-    printf("Registers are:\n");
+    printf("\nRegisters are:\n");
     for (int i = 0; i < 32; i++) {
         printf("register['%2d'] => %d\n", i, *(array1 + i));
     }
@@ -212,7 +209,6 @@ int SKIE (int *array, int num1, int num2) {
 }
 
 void PUSH (int *array, int num) {
-
     int val = *(array + num);
     if(top == MAX - 1) {
         printf("\nStack is full!!\n");
@@ -244,12 +240,11 @@ int main() {
 
    char fileArray[RSIZ][LSIZ];
    char fname[20];
+   int i = 0, tot = 0;
    int file_exsit = 0;
    FILE *fptr = NULL; 
-   int i = 0, tot = 0;
    printf("Input the filename to be opened : ");
    scanf("%s",fname);
-
    fptr = fopen(fname, "r");
    if (fptr == NULL) {
     printf("No file were found with the given name!\n");
@@ -263,9 +258,9 @@ int main() {
    }
    tot = i;
 
-   char MovFuncName[20] = "MOV", swpFuncName[20] = "SWP", dmpFuncName[20] = "DUMP_REGS", inptFuncName[20] = "INPUT", outpFuncName[20] = "OUTPUT", extFuncName[20] = "EXIT";
+   char MovFuncName[20] = "MOV", swpFuncName[20] = "SWP", dmpFuncName[20] = "DUMP_REGS", inptFuncName[20] = "INPUT", outpFuncName[20] = "OUTPUT";
    char AddFuncName[20] = "ADD", AddiFuncName[20] = "ADDI", SubFuncName[20] = "SUB", SubiFuncName[20] = "SUBI", AndFuncName[20] = "AND", AndiFuncName[20] = "ANDI";
-   char OrFuncName[20] = "OR",   OriFuncName[20] = "ORI", XorFuncName[20] = "XOR", XoriFuncName[20] = "XORI";
+   char OrFuncName[20] = "OR",   OriFuncName[20] = "ORI", XorFuncName[20] = "XOR", XoriFuncName[20] = "XORI", extFuncName[20] = "EXIT";
    char JmpFuncName[20] = "JMP", fdmpFuncName[20] = "DUMP_REGS_F", mullFuncName[20] = "MULL", divFuncName[20] = "DIV", skieFuncName[20] = "SKIE";
    char pushFuncName[20] = "PUSH", popFuncName[20] = "POP";
 
@@ -288,7 +283,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Add) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3))  {
             printf("(Add) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -301,7 +296,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Sub) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3))  {
             printf("(Sub) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -314,7 +309,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(And) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3))  {
             printf("(And) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -327,7 +322,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Or) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3))  {
             printf("(Or) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -340,7 +335,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Xor) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2) || indxValidator(indx3))  {
             printf("(Xor) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -353,7 +348,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Addi) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Addi) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -366,7 +361,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Subi) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Subi) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -379,7 +374,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Andi) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Andi) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -392,7 +387,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Ori) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Ori) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -405,7 +400,7 @@ int main() {
         if (sscanfVal != 4) {
             printf("(Xori) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 4 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Xori) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -420,7 +415,7 @@ int main() {
             if (sscanfVal != 3) {
                 printf("(Mov) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
             }
-            else if ( sscanfVal == 3 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+            else if (indxValidator(indx1) || indxValidator(indx2))  {
                 printf("(Mov) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
             }
             else {
@@ -433,7 +428,7 @@ int main() {
             if (sscanfVal != 3) {
             printf("(Mov) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
             }
-            else if ( sscanfVal == 3 &&  (indxValidator(indx1)) ) {
+            else if (indxValidator(indx1))  {
                 printf("(Mov) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
             }
             else {
@@ -447,7 +442,7 @@ int main() {
         if (sscanfVal != 3) {
             printf("(Swp) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 3 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Swp) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -460,7 +455,7 @@ int main() {
         if (sscanfVal != 3) {
             printf("(Mull) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 3 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Mull) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -473,7 +468,7 @@ int main() {
         if (sscanfVal != 3) {
             printf("(Div) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 3 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Div) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -486,7 +481,7 @@ int main() {
         if (sscanfVal != 3) {
             printf("(Skie) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 3 &&  (indxValidator(indx1) || indxValidator(indx2)) ) {
+        else if (indxValidator(indx1) || indxValidator(indx2))  {
             printf("(Skie) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -542,7 +537,7 @@ int main() {
         if (sscanfVal != 2) {
             printf("(Push) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 2 &&  (indxValidator(indx1)) ) {
+        else if (indxValidator(indx1))  {
             printf("(Push) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
@@ -555,7 +550,7 @@ int main() {
         if (sscanfVal != 2) {
             printf("(Pop) Failed to execute the command: Invalid prefix, Not using a comma or too many arguments\n");
         }
-        else if ( sscanfVal == 2 &&  (indxValidator(indx1)) ) {
+        else if (indxValidator(indx1))  {
             printf("(Pop) Failed to execute the command => Invalid register index. the index must be between 0 & 31\n");
         }
         else {
