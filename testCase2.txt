@@ -1,0 +1,6 @@
+Add S1, S2, S50
+Mov S1, S2, S3
+ezafe S1, S2, S3
+Swp S1, 15
+Exif
+Exit

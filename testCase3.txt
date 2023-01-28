@@ -1,0 +1,11 @@
+add S0, S1, S2
+JMP 6
+OUTPUT
+dump_regs
+dump_REGS_f
+ADD S0, S1, S30
+SWP S0, S1
+POP S1
+PUSH S1
+INPUT
+OUTPUT
