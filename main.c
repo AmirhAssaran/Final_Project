@@ -567,7 +567,7 @@ int main() {
   if (inpt_check == 1) {
     printf("Please enter an integer to fill the 0 register: ");
     scanf("%d", &inptNum);
-    *(registersArray + 0) = inptNum;
+    INPUT (registersArray, inptNum);
   }
 
   if (outpt_check == 1) {
