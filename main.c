@@ -505,7 +505,9 @@ int main() {
     }
 
     else if (strcasecmp(funcName, inptFuncName) == 0) {
-        inpt_check = 1;
+        printf("Please enter an integer to fill the 0 register: ");
+        scanf("%d", &inptNum);
+        INPUT (registersArray, inptNum);
     }
 
     else if (strcasecmp(funcName, outpFuncName) == 0) {
@@ -562,12 +564,6 @@ int main() {
         printf("Failed to execute the command: Invalid Command Name on line %d\n", i + 1);
     }
 
-  }
-
-  if (inpt_check == 1) {
-    printf("Please enter an integer to fill the 0 register: ");
-    scanf("%d", &inptNum);
-    INPUT (registersArray, inptNum);
   }
 
   if (outpt_check == 1) {
