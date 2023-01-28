@@ -175,6 +175,10 @@ void INPUT (int *array, int number) {
     *(array + 0) = number;
 }
 
+void OUTPUT (int *array) {
+    printf("\nValue of register 0 is: [%d]\n", *(array + 0));
+}
+
 void MULL (int *array, int num1, int num2) {
     int res = *(array + num1) * *(array + num2);
     *(array + num1) = res / 16;
@@ -511,7 +515,7 @@ int main() {
     }
 
     else if (strcasecmp(funcName, outpFuncName) == 0) {
-        outpt_check = 1;
+        OUTPUT(registersArray);
     }
 
     else if (strcasecmp(funcName, dmpFuncName) == 0) {
@@ -564,10 +568,6 @@ int main() {
         printf("Failed to execute the command: Invalid Command Name on line %d\n", i + 1);
     }
 
-  }
-
-  if (outpt_check == 1) {
-    printf("The value of 0 register is: %d\n", *(registersArray + 0));
   }
 
   if (file_exsit == 1) {
